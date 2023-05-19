@@ -1,6 +1,6 @@
 const Footer = dynamic(() => import("@/components/features/home/Footer"), { ssr: false });
-import { FormControl, IconButton, Input, InputAdornment, InputLabel, Paper, Typography } from "@mui/material";
-import { Fragment, memo, useState } from "react";
+import { IconButton, Input, InputAdornment, InputLabel, Paper, Typography } from "@mui/material";
+import { Fragment, useState } from "react";
 import { image } from "@/data/image";
 import { loginStyle } from "@/styles/login";
 import { NextPage } from "next";
@@ -84,4 +84,4 @@ const Home: NextPage = (): JSX.Element => {
     );
 };
 
-export default memo(Home);
+export default Home;

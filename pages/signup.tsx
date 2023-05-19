@@ -11,10 +11,13 @@ import {
     Typography,
 } from "@mui/material";
 import { Container } from "@mantine/core";
+import { EnumAccountDetailType } from "@/types/account_types";
+import { EnumStep } from "@/types/steps";
 import { image } from "@/data/image";
 import { NextPage } from "next";
 import { signUpStyle } from "@/styles/signup";
 import { useRouter } from "next/router";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import CloseIcon from "@mui/icons-material/Close";
 import Head from "next/head";
 import Image from "next/image";
@@ -22,27 +25,14 @@ import React, { Fragment, useState } from "react";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Stepper from "@mui/material/Stepper";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-
-enum EnumStep {
-    DETAILS = "details",
-    CONFIRMATION = "confirmation",
-    VERIFICATION = "verification",
-    PASSCODE = "passcode",
-    DONE = "done",
-}
-
-enum EnumAccountDetailType {
-    DEPOSIT = "deposit",
-    INVESTMENT = "investment",
-}
+import _ from "lodash";
 
 const Signup: NextPage = (): JSX.Element => {
     const [showPassword, setShowPassword] = useState(false);
     const [accountDetailType, setAccountDetailType] = useState<EnumAccountDetailType>(EnumAccountDetailType.DEPOSIT);
 
     const router = useRouter();
-    const steps = Object.values(EnumStep);
+    const steps: EnumStep[] = Object.values(EnumStep);
 
     const onConfirmCloseModal = () => router.push("/");
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -120,7 +110,7 @@ const Signup: NextPage = (): JSX.Element => {
                     <Button
                         fullWidth
                         style={
-                            accountDetailType === EnumAccountDetailType.DEPOSIT
+                            _.isEqual(accountDetailType, EnumAccountDetailType.DEPOSIT)
                                 ? { backgroundColor: "#07A6EA" }
                                 : { backgroundColor: "#FFFFFF" }
                         }
@@ -133,13 +123,15 @@ const Signup: NextPage = (): JSX.Element => {
                     <Button
                         fullWidth
                         style={
-                            accountDetailType === EnumAccountDetailType.INVESTMENT
+                            _.isEqual(accountDetailType, EnumAccountDetailType.INVESTMENT)
                                 ? { backgroundColor: "#07A6EA" }
                                 : { backgroundColor: "#FFFFFF" }
                         }
                         onClick={() => setAccountDetailType(EnumAccountDetailType.INVESTMENT)}
                     >
-                        <Typography color={accountDetailType === EnumAccountDetailType.INVESTMENT ? "white" : "black"}>
+                        <Typography
+                            color={_.isEqual(accountDetailType, EnumAccountDetailType.INVESTMENT) ? "white" : "black"}
+                        >
                             investment
                         </Typography>
                     </Button>
