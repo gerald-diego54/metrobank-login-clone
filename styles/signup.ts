@@ -1,7 +1,7 @@
 export const signUpStyle = {
     headerStyle: {
         backgroundImage: "url('/metrobank/footer-bg-2.webp')",
-        height: 135,
+        height: "15vh",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
     },

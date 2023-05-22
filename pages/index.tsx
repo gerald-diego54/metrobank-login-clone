@@ -1,5 +1,5 @@
 const Footer = dynamic(() => import("@/components/features/home/Footer"), { ssr: false });
-import { IconButton, Input, InputAdornment, InputLabel, Paper, Typography } from "@mui/material";
+import { IconButton, Input, InputAdornment, Paper, Typography } from "@mui/material";
 import { Fragment, useState } from "react";
 import { image } from "@/data/image";
 import { loginStyle } from "@/styles/login";
@@ -14,9 +14,11 @@ import Link from "next/link";
 import LockIcon from "@mui/icons-material/Lock";
 import PersonIcon from "@mui/icons-material/Person";
 import Stack from "@mui/material/Stack";
+import Modal from "@/components/ui/Modal";
 
 const Home: NextPage = (): JSX.Element => {
     const [showPassword, setShowPassword] = useState(false);
+
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => event.preventDefault();
     const InputAdorment: React.FC = (): JSX.Element => {
@@ -79,6 +81,7 @@ const Home: NextPage = (): JSX.Element => {
                     </Link>
                 </Box>
             </Paper>
+            <Modal />
             <Footer />
         </Fragment>
     );
