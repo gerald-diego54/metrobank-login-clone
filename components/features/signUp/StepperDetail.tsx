@@ -14,17 +14,17 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
+import _ from "lodash";
 import { Checkbox } from "@mantine/core";
 import { EnumAccountDetailType } from "@/types/account_types";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import Image from "next/image";
 import React, { useState } from "react";
-import _ from "lodash";
 
-const StepperOne: React.FC = (): JSX.Element => {
-    const [showPassword, setShowPassword] = useState(false);
+const StepperDetail: React.FC<{ stepper: (step: number) => void }> = ({ stepper }): JSX.Element => {
+    const [showPassword, setShowPassword] = useState<boolean>(false);
     const [accountDetailType, setAccountDetailType] = useState<EnumAccountDetailType>(EnumAccountDetailType.DEPOSIT);
-    const [country, setCountry] = useState("");
+    const [country, setCountry] = useState<string>("");
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => event.preventDefault();
@@ -167,6 +167,7 @@ const StepperOne: React.FC = (): JSX.Element => {
                     color="primary"
                     style={{ backgroundColor: "#126EBD", padding: "15px 0", margin: "15px 0" }}
                     fullWidth
+                    onClick={() => stepper(1)}
                 >
                     <Typography sx={{ color: "#FFFFFF" }}>next</Typography>
                 </Button>
@@ -178,4 +179,4 @@ const StepperOne: React.FC = (): JSX.Element => {
     );
 };
 
-export default StepperOne;
+export default StepperDetail;
