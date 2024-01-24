@@ -2,18 +2,23 @@ import { Box, Button, Typography } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import React, { useEffect, useState } from "react";
 import _ from "lodash";
+import AuthService from "@/services/auth.service";
 
 const StepperConfirm: React.FC<{
-    username: string;
-    password: string;
-    depositAccount: number;
-    firstname: string;
-    middlename?: string;
-    lastname: string;
-    mobile: string;
-    email: string;
+    inputs: {
+        username: string;
+        password: string;
+        depositAccount: string;
+        firstname: string;
+        middlename?: string;
+        lastname: string;
+        mobile: string;
+        email: string;
+        agreement: boolean;
+    };
     stepper: (step: number) => void;
-}> = ({ username, password, depositAccount, firstname, middlename, lastname, mobile, email, stepper }): JSX.Element => {
+}> = ({ inputs, stepper }): JSX.Element => {
+    const authService = new AuthService();
     const [passwordVisibility, setPasswordVisibility] = useState<boolean>(false);
     const [maskedPassword, setMaskedPassword] = useState<string>("");
     const itemLists: string[] = [
@@ -29,8 +34,14 @@ const StepperConfirm: React.FC<{
 
     const onMaskedPassword = (): void => {
         let maskedPass = "";
-        for (let index = 0; index < password.length; index++) maskedPass += "*";
+        for (let index = 0; index < inputs.password.length; index++) maskedPass += "*";
         setMaskedPassword(maskedPass);
+    };
+
+    const onSubmit = async () => {
+        stepper(2);
+        const response = await authService.signUpService("https://localhost:8000/api/v1.0/user/register", inputs);
+        console.log(response);
     };
 
     useEffect(() => {
@@ -50,10 +61,10 @@ const StepperConfirm: React.FC<{
                     </Box>
                     <Box sx={{ width: "50%" }}>
                         <Typography fontSize={14} pl={1} my={2} align="left">
-                            {username || "N/A"}
+                            {inputs.username || "N/A"}
                         </Typography>
                         <Typography fontSize={14} pl={1} mb={2} align="left">
-                            {passwordVisibility ? password : maskedPassword}
+                            {passwordVisibility ? inputs.password : maskedPassword}
                             {passwordVisibility ? (
                                 <Visibility sx={{ marginLeft: 2 }} onClick={() => setPasswordVisibility(false)} />
                             ) : (
@@ -61,22 +72,22 @@ const StepperConfirm: React.FC<{
                             )}
                         </Typography>
                         <Typography fontSize={14} pl={1} mb={2} align="left">
-                            {depositAccount || "N/A"}
+                            {inputs.depositAccount || "N/A"}
                         </Typography>
                         <Typography fontSize={14} pl={1} mb={2} align="left">
-                            {firstname || "N/A"}
+                            {inputs.firstname || "N/A"}
                         </Typography>
                         <Typography fontSize={14} pl={1} mb={2} align="left">
-                            {middlename || "N/A"}
+                            {inputs.middlename || "N/A"}
                         </Typography>
                         <Typography fontSize={14} pl={1} mb={2} align="left">
-                            {lastname || "N/A"}
+                            {inputs.lastname || "N/A"}
                         </Typography>
                         <Typography fontSize={14} pl={1} mb={2} align="left">
-                            {mobile || "N/A"}
+                            {inputs.mobile || "N/A"}
                         </Typography>
                         <Typography fontSize={14} pl={1} align="left">
-                            {email || "N/A"}
+                            {inputs.email || "N/A"}
                         </Typography>
                     </Box>
                 </Box>
@@ -97,7 +108,7 @@ const StepperConfirm: React.FC<{
                     </Button>
                     <Button
                         color="primary"
-                        onClick={() => stepper(2)}
+                        onClick={onSubmit}
                         style={{
                             backgroundColor: "#126EBD",
                             padding: "15px 0",
